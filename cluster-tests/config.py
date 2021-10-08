@@ -20,6 +20,12 @@ CLUSTER_INFO = {
     'GLUSTER_VOLUME': environ.get('GLUSTER_VOLUME'),
 }
 
+CLUSTER_ADS = {
+    'DOMAIN': environ.get('AD_DOMAIN'),
+    'USERNAME': environ.get('AD_USERNAME'),
+    'PASSWORD': enviorn.get('AD_PASSWORD')
+}
+
 INTERNAL_DS = '.glusterfs'
 BRICK_NAME = 'brick0'
 DATASET_HIERARCHY = f'{CLUSTER_INFO["ZPOOL"]}/{INTERNAL_DS}/{CLUSTER_INFO["GLUSTER_VOLUME"]}/{BRICK_NAME}'
