@@ -70,8 +70,7 @@ def test_003_validate_smb_bind_ips(ip, request):
 
     smb_ip_set = set(res.json().values())
     cluster_ip_set = set(CLUSTER_INFO['CLUSTER_IPS'])
-    assert smb_ip_set == cluster_ip_set, smb_ips
-
+    assert smb_ip_set == cluster_ip_set, res.text 
 
 
 @pytest.mark.parametrize('ip', CLUSTER_IPS)
@@ -141,7 +140,7 @@ def test_006_verify_ad_accounts_present(ip, request):
     res = make_request('post', url, data=payload)
     assert res.status_code == 200, res.text
 
-    payload = {"groupname": f'{CLUSTER_ADS["DOMAIN"]}\domain users'}
+    payload = {"groupname": fr'{CLUSTER_ADS["DOMAIN"]}\domain users'}
     url = f'http://{ip}/api/v2.0/group/get_group_obj/'
     res = make_request('post', url, data=payload)
     assert res.status_code == 200, res.text
