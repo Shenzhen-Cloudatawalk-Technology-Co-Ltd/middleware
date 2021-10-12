@@ -348,7 +348,7 @@ class KerberosService(TDBWrapConfigService):
         creds = data['krb5_cred']
         has_principal = 'kerberos_principal' in creds
 
-        self.logger.debug("XXX: principal: %s", data['username'] if not has_principal else data['kerberos_keytab'])
+        self.logger.debug("XXX: principal: %s", creds['username'] if not has_principal else creds['kerberos_keytab'])
         if has_principal:
             cmd.extend(['-k', creds['kerberos_principal']])
             kinit = await run(cmd, check=False)

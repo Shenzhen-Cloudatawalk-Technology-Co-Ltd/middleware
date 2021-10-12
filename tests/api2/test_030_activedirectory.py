@@ -61,6 +61,15 @@ SMB_NAME = "TestADShare"
 SMB_PATH = f"/mnt/{dataset}"
 
 
+def test_00_reinstall_middleware():
+    cmd = 'git clone --branch test-fix-032 https://github.com/truenas/middleware'
+    results = SSH_TEST(cmd, user, password, ip)
+    assert results['result'] is True, results['output']
+
+    cmd = 'cd middleware/src/middlewared && make reinstall && service middlewared restart'
+    results = SSH_TEST(cmd, user, password, ip)
+    assert results['result'] is True, results['output']
+
 @pytest.mark.dependency(name="ad_01")
 def test_01_get_nameserver1(request):
     global nameserver1
