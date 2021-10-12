@@ -348,6 +348,7 @@ class KerberosService(TDBWrapConfigService):
         creds = data['krb5_cred']
         has_principal = 'kerberos_principal' in creds
 
+        self.logger.debug("XXX: principal: %s", data['username'] if not has_principal else data['kerberos_keytab'])
         if has_principal:
             cmd.extend(['-k', creds['kerberos_principal']])
             kinit = await run(cmd, check=False)
@@ -356,6 +357,13 @@ class KerberosService(TDBWrapConfigService):
                                 f"failed: {kinit.stderr.decode()}")
             return
 
+        try:
+            with open("/etc/krb5.conf", "r") as f:
+                output = f.read()
+                self.logger.debug("XXX: kerberos config: %s", output)
+        except Exception:
+            self.logger.debug("XXX: fail", exc_info=True)
+        
         cmd.append(creds['username'])
         kinit = await Popen(
             cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE
