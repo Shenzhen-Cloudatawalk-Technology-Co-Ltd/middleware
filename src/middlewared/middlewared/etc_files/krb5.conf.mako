@@ -121,6 +121,7 @@
 
         parsed_appdefaults = parse_defaults("appdefault", appdefaults, db_def=db['krb_aux']['appdefaults_aux'])
         parsed_libdefaults = parse_defaults("libdefault", libdefaults, db_def=db['krb_aux']['libdefaults_aux'])
+        logger.debug("XXX: realms: %s", db_realms)
 
         if not db_realms:
             raise FileShouldNotExist()
